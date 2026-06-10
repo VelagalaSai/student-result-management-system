@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Subjects — SRMS{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Subjects</h1>
+  <a href="{{ url_for('add_subject') }}" class="btn btn-primary">+ Add Subject</a>
+</div>
+
+{% if subjects %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Subject Code</th>
+        <th>Subject Name</th>
+        <th>Branch</th>
+        <th>Semester</th>
+        <th>Max Marks</th>
+        <th>Credits</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in subjects %}
+      <tr>
+        <td><strong>{{ s.SubjectCode }}</strong></td>
+        <td>{{ s.SubjectName }}</td>
+        <td><span class="badge">{{ s.Branch }}</span></td>
+        <td>Sem {{ s.Semester }}</td>
+        <td>{{ s.MaxMarks }}</td>
+        <td>{{ s.Credits }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <p>No subjects added yet. <a href="{{ url_for('add_subject') }}">Add the first subject →</a></p>
+</div>
+{% endif %}
+
+{% endblock %}

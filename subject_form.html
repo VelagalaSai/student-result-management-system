@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Students — SRMS{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Students</h1>
+  <a href="{{ url_for('add_student') }}" class="btn btn-primary">+ Add Student</a>
+</div>
+
+<form method="GET" class="search-form">
+  <input type="text" name="search" value="{{ search }}" placeholder="Search by Roll No or Name…" class="search-input"/>
+  <button type="submit" class="btn btn-secondary">Search</button>
+  {% if search %}<a href="{{ url_for('students') }}" class="btn btn-ghost">Clear</a>{% endif %}
+</form>
+
+{% if students %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Roll No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Branch</th>
+        <th>Semester</th>
+        <th>Academic Year</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in students %}
+      <tr>
+        <td><strong>{{ s.RollNumber }}</strong></td>
+        <td>{{ s.FirstName }} {{ s.LastName }}</td>
+        <td>{{ s.Email }}</td>
+        <td><span class="badge">{{ s.Branch }}</span></td>
+        <td>Sem {{ s.Semester }}</td>
+        <td>{{ s.AcademicYear }}</td>
+        <td class="actions">
+          <a href="{{ url_for('edit_student', student_id=s.StudentID) }}" class="btn btn-sm btn-secondary">Edit</a>
+          <form method="POST" action="{{ url_for('delete_student', student_id=s.StudentID) }}"
+                style="display:inline"
+                onsubmit="return confirm('Delete this student? This will also remove their results.')">
+            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <p>No students found. <a href="{{ url_for('add_student') }}">Add the first student →</a></p>
+</div>
+{% endif %}
+
+{% endblock %}

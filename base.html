@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Results — SRMS{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Results</h1>
+  <a href="{{ url_for('add_result') }}" class="btn btn-primary">+ Enter Result</a>
+</div>
+
+{% if results %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Roll No</th>
+        <th>Student Name</th>
+        <th>Branch</th>
+        <th>Subject</th>
+        <th>Marks</th>
+        <th>%</th>
+        <th>Grade</th>
+        <th>Status</th>
+        <th>Year</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr>
+        <td><strong>{{ r.RollNumber }}</strong></td>
+        <td>{{ r.StudentName }}</td>
+        <td><span class="badge">{{ r.Branch }}</span></td>
+        <td>{{ r.SubjectCode }} — {{ r.SubjectName }}</td>
+        <td>{{ r.MarksObtained }} / {{ r.MaxMarks }}</td>
+        <td>{{ r.Percentage }}%</td>
+        <td><span class="grade-badge grade-{{ r.Grade }}">{{ r.Grade }}</span></td>
+        <td>
+          <span class="status-badge status-{{ r.Status.lower() }}">{{ r.Status }}</span>
+        </td>
+        <td>{{ r.ExamYear }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <p>No results entered yet. <a href="{{ url_for('add_result') }}">Enter the first result →</a></p>
+</div>
+{% endif %}
+
+{% endblock %}
