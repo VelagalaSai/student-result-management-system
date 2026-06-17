@@ -83,16 +83,16 @@ The database is created automatically on first run with sample data!
 | C     | ≥ 40%     |
 | F     | < 40%     |
 
+## Screenshots
+
+![Dashboard](dashboard.png)
+![Students](students.png)
+![Subjects](subjects.png)
+![Results](results.png)
+![Reports](reports.png)
+
 ## 👩‍💻 Author
 
 **Velagala Sai Bhaskari**  
 Programmer Analyst | Python | C# | SQL Server  
 [Email](mailto:chinnuvelagala26@gmail.com)
-
-## Screenshots
-
-![Dashboard](dashboard.png.png)
-![Students](students.png.png)
-![Subjects](subjects.png.png)
-![Results](results.png.png)
-![Reports](reports.png.png)
