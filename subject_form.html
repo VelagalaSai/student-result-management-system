@@ -1,58 +1,37 @@
 {% extends "base.html" %}
-{% block title %}Students — SRMS{% endblock %}
+{% block title %}Add Subject{% endblock %}
 {% block content %}
-
 <div class="page-header">
-  <h1>Students</h1>
-  <a href="{{ url_for('add_student') }}" class="btn btn-primary">+ Add Student</a>
+  <h1>Add Subject</h1>
+  <a href="{{ url_for('subjects') }}" class="btn btn-ghost">← Back</a>
 </div>
-
-<form method="GET" class="search-form">
-  <input type="text" name="search" value="{{ search }}" placeholder="Search by Roll No or Name…" class="search-input"/>
-  <button type="submit" class="btn btn-secondary">Search</button>
-  {% if search %}<a href="{{ url_for('students') }}" class="btn btn-ghost">Clear</a>{% endif %}
-</form>
-
-{% if students %}
-<div class="table-wrap">
-  <table class="data-table">
-    <thead>
-      <tr>
-        <th>Roll No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Branch</th>
-        <th>Semester</th>
-        <th>Academic Year</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for s in students %}
-      <tr>
-        <td><strong>{{ s.RollNumber }}</strong></td>
-        <td>{{ s.FirstName }} {{ s.LastName }}</td>
-        <td>{{ s.Email }}</td>
-        <td><span class="badge">{{ s.Branch }}</span></td>
-        <td>Sem {{ s.Semester }}</td>
-        <td>{{ s.AcademicYear }}</td>
-        <td class="actions">
-          <a href="{{ url_for('edit_student', student_id=s.StudentID) }}" class="btn btn-sm btn-secondary">Edit</a>
-          <form method="POST" action="{{ url_for('delete_student', student_id=s.StudentID) }}"
-                style="display:inline"
-                onsubmit="return confirm('Delete this student? This will also remove their results.')">
-            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="form-card">
+  <form method="POST">
+    <div class="form-group">
+      <label>Subject Code <span class="required">*</span></label>
+      <input type="text" name="subject_code" placeholder="e.g. CS501" required />
+    </div>
+    <div class="form-group">
+      <label>Subject Name <span class="required">*</span></label>
+      <input type="text" name="subject_name" placeholder="e.g. Data Structures" required />
+    </div>
+    <div class="form-group">
+      <label>Branch <span class="required">*</span></label>
+      <select name="branch" required>
+        <option value="">Select Branch</option>
+        <option value="CSE">CSE</option>
+        <option value="ECE">ECE</option>
+        <option value="IT">IT</option>
+        <option value="MECH">MECH</option>
+        <option value="CIVIL">CIVIL</option>
+        <option value="AIDS">AIDS</option>
+        <option value="AIML">AIML</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save Subject</button>
+      <a href="{{ url_for('subjects') }}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
 </div>
-{% else %}
-<div class="empty-state">
-  <p>No students found. <a href="{{ url_for('add_student') }}">Add the first student →</a></p>
-</div>
-{% endif %}
-
 {% endblock %}
