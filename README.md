@@ -88,3 +88,11 @@ The database is created automatically on first run with sample data!
 **Velagala Sai Bhaskari**  
 Programmer Analyst | Python | C# | SQL Server  
 [Email](mailto:chinnuvelagala26@gmail.com)
+
+## Screenshots
+
+![Dashboard](dashboard.png.png)
+![Students](students.png.png)
+![Subjects](subjects.png.png)
+![Results](results.png.png)
+![Reports](reports.png.png)
