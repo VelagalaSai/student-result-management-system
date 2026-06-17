@@ -82,14 +82,9 @@ The database is created automatically on first run with sample data!
 | B     | ≥ 50%     |
 | C     | ≥ 40%     |
 | F     | < 40%     |
-
 ## Screenshots
 
-![Dashboard](dashboard.png)
-![Students](students.png)
-![Subjects](subjects.png)
-![Results](results.png)
-![Reports](reports.png)
+<img src="dashboard.png" width="800"/>
 
 ## 👩‍💻 Author
 
