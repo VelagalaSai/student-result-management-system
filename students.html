@@ -1,58 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Enter Result — SRMS{% endblock %}
+{% block title %}Students{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Enter Result</h1>
-  <a href="{{ url_for('results') }}" class="btn btn-ghost">← Back</a>
+  <h1>Students</h1>
+  <a href="{{ url_for('add_student') }}" class="btn btn-primary">+ Add Student</a>
 </div>
 
-<div class="form-card">
-  <form method="POST">
-    <div class="form-group">
-      <label>Student <span class="required">*</span></label>
-      <select name="student_id" required>
-        <option value="">Select Student</option>
-        {% for s in students %}
-        <option value="{{ s.StudentID }}">{{ s.RollNumber }} — {{ s.Name }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Subject <span class="required">*</span></label>
-      <select name="subject_id" required>
-        <option value="">Select Subject</option>
-        {% for sub in subjects %}
-        <option value="{{ sub.SubjectID }}">{{ sub.SubjectCode }} — {{ sub.SubjectName }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>Marks Obtained <span class="required">*</span></label>
-        <input type="number" name="marks" placeholder="e.g. 85" step="0.5" min="0" required/>
-      </div>
-      <div class="form-group">
-        <label>Exam Type</label>
-        <select name="exam_type">
-          <option value="Regular">Regular</option>
-          <option value="Supplementary">Supplementary</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Exam Year <span class="required">*</span></label>
-      <input type="text" name="exam_year" placeholder="e.g. 2023-24" required maxlength="10"/>
-    </div>
-
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Save Result</button>
-      <a href="{{ url_for('results') }}" class="btn btn-ghost">Cancel</a>
-    </div>
-  </form>
+{% if students %}
+<table>
+  <thead>
+    <tr>
+      <th>Roll Number</th>
+      <th>Name</th>
+      <th>Branch</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in students %}
+    <tr>
+      <td>{{ s.roll_number }}</td>
+      <td>{{ s.name }}</td>
+      <td><span class="badge">{{ s.branch }}</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+  <p>No students added yet. <a href="{{ url_for('add_student') }}">Add the first student</a></p>
 </div>
+{% endif %}
 
 {% endblock %}
