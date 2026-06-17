@@ -1,57 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Dashboard — SRMS{% endblock %}
+{% block title %}Reports{% endblock %}
 {% block content %}
-
 <div class="page-header">
-  <h1>Dashboard</h1>
-  <p class="subtitle">Student Result Management System</p>
+  <h1>Reports</h1>
 </div>
-
-{% if db_error %}
-<div class="alert alert-error">
-  <strong>Database Connection Error:</strong> {{ db_error }}<br/>
-  <small>Please check your SQL Server settings in <code>app.py</code> → DB_CONFIG</small>
+{% if data %}
+<table>
+  <thead>
+    <tr>
+      <th>Roll Number</th>
+      <th>Name</th>
+      <th>Branch</th>
+      <th>Total Subjects</th>
+      <th>Average Marks</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in data %}
+    <tr>
+      <td>{{ d.roll_number }}</td>
+      <td>{{ d.name }}</td>
+      <td><span class="badge">{{ d.branch }}</span></td>
+      <td>{{ d.total_subjects }}</td>
+      <td>{{ "%.1f"|format(d.avg_marks or 0) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+  <p>No report data available yet.</p>
 </div>
 {% endif %}
-
-<div class="stats-grid">
-  <div class="stat-card">
-    <div class="stat-number">{{ student_count }}</div>
-    <div class="stat-label">Total Students</div>
-    <a href="{{ url_for('students') }}" class="stat-link">View All →</a>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number">{{ subject_count }}</div>
-    <div class="stat-label">Subjects</div>
-    <a href="{{ url_for('subjects') }}" class="stat-link">View All →</a>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number">{{ result_count }}</div>
-    <div class="stat-label">Results Entered</div>
-    <a href="{{ url_for('results') }}" class="stat-link">View All →</a>
-  </div>
-</div>
-
-<div class="quick-actions">
-  <h2>Quick Actions</h2>
-  <div class="action-grid">
-    <a href="{{ url_for('add_student') }}" class="action-card">
-      <span class="action-icon">➕</span>
-      <span>Add Student</span>
-    </a>
-    <a href="{{ url_for('add_result') }}" class="action-card">
-      <span class="action-icon">📝</span>
-      <span>Enter Result</span>
-    </a>
-    <a href="{{ url_for('reports') }}" class="action-card">
-      <span class="action-icon">📊</span>
-      <span>Generate Report</span>
-    </a>
-    <a href="{{ url_for('add_subject') }}" class="action-card">
-      <span class="action-icon">📚</span>
-      <span>Add Subject</span>
-    </a>
-  </div>
-</div>
-
 {% endblock %}
