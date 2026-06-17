@@ -4,6 +4,7 @@ import csv
 import io
 
 app = Flask(__name__)
+
 def get_db():
     conn = sqlite3.connect('srms.db')
     conn.row_factory = sqlite3.Row
@@ -43,10 +44,6 @@ def calculate_grade(marks):
     elif marks >= 50: return 'B'
     elif marks >= 40: return 'C'
     else: return 'F'
-
-def calculate_cgpa(grade):
-    grade_points = {'O':10,'A+':9,'A':8,'B+':7,'B':6,'C':5,'F':0}
-    return grade_points.get(grade, 0)
 
 @app.route('/')
 def index():
@@ -133,17 +130,32 @@ def add_result():
 @app.route('/reports')
 def reports():
     conn = get_db()
-    data = conn.execute('''
-        SELECT s.name, s.roll_number, s.branch,
-               COUNT(r.id) as total_subjects,
-               AVG(r.marks) as avg_marks,
-               GROUP_CONCAT(r.grade) as grades
-        FROM students s
-        LEFT JOIN results r ON s.id = r.student_id
-        GROUP BY s.id
-    ''').fetchall()
+    students = conn.execute('SELECT * FROM students').fetchall()
+    report_data = []
+    for student in students:
+        results = conn.execute('''
+            SELECT r.marks, r.grade FROM results r
+            WHERE r.student_id = ?
+        ''', (student['id'],)).fetchall()
+        total_subjects = len(results)
+        if total_subjects > 0:
+            avg_marks = sum(r['marks'] for r in results) / total_subjects
+            grade_points = {'O':10,'A+':9,'A':8,'B+':7,'B':6,'C':5,'F':0}
+            total_points = sum(grade_points.get(r['grade'], 0) for r in results)
+            cgpa = round(total_points / total_subjects, 2)
+        else:
+            avg_marks = 0
+            cgpa = 0
+        report_data.append({
+            'name': student['name'],
+            'roll_number': student['roll_number'],
+            'branch': student['branch'],
+            'total_subjects': total_subjects,
+            'avg_marks': round(avg_marks, 1),
+            'cgpa': cgpa
+        })
     conn.close()
-    return render_template('reports.html', data=data)
+    return render_template('reports.html', data=report_data)
 
 if __name__ == '__main__':
     init_db()
