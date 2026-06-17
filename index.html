@@ -1,35 +1,51 @@
 {% extends "base.html" %}
-{% block title %}Subjects — SRMS{% endblock %}
+{% block title %}Dashboard — SRMS{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Subjects</h1>
-  <a href="{{ url_for('add_subject') }}" class="btn btn-primary">+ Add Subject</a>
+  <h1>Dashboard</h1>
 </div>
 
-{% if subjects %}
-<table>
-  <thead>
-    <tr>
-      <th>Subject Code</th>
-      <th>Subject Name</th>
-      <th>Branch</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for s in subjects %}
-    <tr>
-      <td>{{ s.subject_code }}</td>
-      <td>{{ s.subject_name }}</td>
-      <td><span class="badge">{{ s.branch }}</span></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<div class="empty-state">
-  <p>No subjects added yet. <a href="{{ url_for('add_subject') }}">Add the first subject</a></p>
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="number">{{ student_count }}</div>
+    <div class="label">Total Students</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ subject_count }}</div>
+    <div class="label">Total Subjects</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ result_count }}</div>
+    <div class="label">Results Entered</div>
+  </div>
 </div>
-{% endif %}
+
+<div style="display:grid; grid-template-columns: repeat(2,1fr); gap:1rem;">
+  <a href="{{ url_for('students') }}" style="text-decoration:none;">
+    <div class="stat-card" style="text-align:left; cursor:pointer;">
+      <div style="font-size:16px; font-weight:500; color:#2c3e50;">Manage Students</div>
+      <div style="font-size:13px; color:#777; margin-top:6px;">Add, view and manage student records</div>
+    </div>
+  </a>
+  <a href="{{ url_for('subjects') }}" style="text-decoration:none;">
+    <div class="stat-card" style="text-align:left; cursor:pointer;">
+      <div style="font-size:16px; font-weight:500; color:#2c3e50;">Manage Subjects</div>
+      <div style="font-size:13px; color:#777; margin-top:6px;">Add and manage subjects by branch</div>
+    </div>
+  </a>
+  <a href="{{ url_for('results') }}" style="text-decoration:none;">
+    <div class="stat-card" style="text-align:left; cursor:pointer;">
+      <div style="font-size:16px; font-weight:500; color:#2c3e50;">Enter Results</div>
+      <div style="font-size:13px; color:#777; margin-top:6px;">Enter marks and auto-compute grades</div>
+    </div>
+  </a>
+  <a href="{{ url_for('reports') }}" style="text-decoration:none;">
+    <div class="stat-card" style="text-align:left; cursor:pointer;">
+      <div style="font-size:16px; font-weight:500; color:#2c3e50;">View Reports</div>
+      <div style="font-size:13px; color:#777; margin-top:6px;">CGPA reports and CSV export</div>
+    </div>
+  </a>
+</div>
 
 {% endblock %}
