@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Reports{% endblock %}
 {% block content %}
+
 <div class="page-header">
   <h1>Reports</h1>
 </div>
+
 {% if data %}
 <table>
   <thead>
@@ -13,6 +15,7 @@
       <th>Branch</th>
       <th>Total Subjects</th>
       <th>Average Marks</th>
+      <th>CGPA</th>
     </tr>
   </thead>
   <tbody>
@@ -22,7 +25,8 @@
       <td>{{ d.name }}</td>
       <td><span class="badge">{{ d.branch }}</span></td>
       <td>{{ d.total_subjects }}</td>
-      <td>{{ "%.1f"|format(d.avg_marks or 0) }}</td>
+      <td>{{ d.avg_marks }}</td>
+      <td><strong style="color:#3498db">{{ d.cgpa }}</strong></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -32,4 +36,5 @@
   <p>No report data available yet.</p>
 </div>
 {% endif %}
+
 {% endblock %}
